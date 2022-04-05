@@ -39,6 +39,10 @@ export default function Chain({ chain }) {
   const icon = useMemo(() => {
     return chain.chainSlug ? `https://defillama.com/chain-icons/rsz_${chain.chainSlug}.jpg` : '/unknown-logo.png';
   }, [chain]);
+  
+  const iconLoader = ({ src, width, quality }) => {
+    return src ? `https://defillama.com/chain-icons/rsz_${src}.jpg` : '/unknown-logo.png';
+  }
 
   const chainId = useChain((state) => state.id);
   const updateChain = useChain((state) => state.updateChain);
@@ -62,7 +66,8 @@ export default function Chain({ chain }) {
       <Paper elevation={1} className={classes.chainContainer} key={chain.chainId}>
         <div className={classes.chainNameContainer}>
           <Image
-            src={icon}
+            loader={iconLoader}
+            src={chain.chainSlug}
             onError={(e) => {
               e.target.onerror = null;
               e.target.src = '/chains/unknown-logo.png';
